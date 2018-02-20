@@ -1,0 +1,33 @@
+<h2>Show Assignment</h2>
+
+<ul>
+
+  <li>
+    <strong>Headline:</strong>
+    <%= @assignment.headline %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @assignment.description %>
+  </li>
+
+  <li>
+    <strong>Hours:</strong>
+    <%= @assignment.hours %>
+  </li>
+
+  <li>
+    <strong>Minutes:</strong>
+    <%= @assignment.minutes %>
+  </li>
+
+  <li>
+    <strong>Complete:</strong>
+    <%= @assignment.complete %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: assignment_path(@conn, :edit, @assignment) %></span>
+<span><%= link "Back", to: page_path(@conn, :index) %></span>

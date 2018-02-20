@@ -1,0 +1,39 @@
+<h2>Listing Assignments</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Publisher</th>
+      <th>Receiver</th>
+      <th>Headline</th>
+      <th>Description</th>
+      <th>Hours</th>
+      <th>Minutes</th>
+      <th>Complete</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for assignment <- @assignments do %>
+    
+    <tr>
+      <td><%= assignment.publisher.name %></td>
+      <td><%= assignment.receiver.name %></td>
+      <td><%= assignment.headline %></td>
+      <td><%= assignment.description %></td>
+      <td><%= assignment.hours %></td>
+      <td><%= assignment.minutes %></td>
+      <td><%= assignment.complete %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: assignment_path(@conn, :show, assignment), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: assignment_path(@conn, :edit, assignment), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: assignment_path(@conn, :delete, assignment), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Assignment", to: assignment_path(@conn, :new) %></span>

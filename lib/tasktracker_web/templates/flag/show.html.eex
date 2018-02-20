@@ -1,0 +1,18 @@
+<h2>Show Flag</h2>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @flag.user.name %>
+  </li>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @flag.body %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: flag_path(@conn, :edit, @flag) %></span>
+<span><%= link "Back", to: flag_path(@conn, :index) %></span>
