@@ -12,22 +12,41 @@
     <%= @assignment.description %>
   </li>
 
-  <li>
-    <strong>Hours:</strong>
-    <%= @assignment.hours %>
-  </li>
 
-  <li>
-    <strong>Minutes:</strong>
-    <%= @assignment.minutes %>
-  </li>
 
   <li>
     <strong>Complete:</strong>
     <%= @assignment.complete %>
   </li>
 
-</ul>
+  <li>
+    <!-- discussed with cheng zeng -->
+    <strong>Time Blocks:</strong>
+    <ul>
+      <%= for b <- @blocks do %>
+        <li>
+          <strong>Start date:</strong>
+            <%=
+              b.start_time
+              |> DateTime.to_naive
+              |> NaiveDateTime.add(-18000)
+              |>  NaiveDateTime.truncate(:second)
+            %>
+          <strong>Stop Time:</strong>
+            <%= if DateTime.diff(b.end_time, b.start_time, :second) == 0 do %>
+                Still working
+            <% else %>
+                <%=
+                b.end_time
+                |> DateTime.to_naive
+                |> NaiveDateTime.add(-18000)
+                |> NaiveDateTime.truncate(:second)
+                %>
+            <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
 
 <span><%= link "Edit", to: assignment_path(@conn, :edit, @assignment) %></span>
 <span><%= link "Back", to: page_path(@conn, :index) %></span>

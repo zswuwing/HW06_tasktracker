@@ -5,8 +5,9 @@ defmodule Tasktracker.Post do
 
   import Ecto.Query, warn: false
   alias Tasktracker.Repo
-
+  alias Tasktracker.Accounts
   alias Tasktracker.Post.Assignment
+  alias Tasktracker.Assignments.Timeblock
 
   @doc """
   Returns the list of assignments.
@@ -24,6 +25,15 @@ defmodule Tasktracker.Post do
 
   end
 
+  def list_assignments_by_publisher_id(id) do
+    Repo.all(from a in Assignment,
+      where: a.publisher_id == ^id)
+    |> Repo.preload(:publisher)
+    |> Repo.preload(:receiver)
+    |> List.wrap
+
+  end
+
   @doc """
   Gets a single assignment.
 
@@ -38,7 +48,7 @@ defmodule Tasktracker.Post do
       ** (Ecto.NoResultsError)
 
   """
-  def get_assignment!(id) do 
+  def get_assignment!(id) do
     Repo.get!(Assignment, id)
     |> Repo.preload(:publisher)
     |> Repo.preload(:receiver)
@@ -58,6 +68,7 @@ defmodule Tasktracker.Post do
 
   """
   def create_assignment(attrs \\ %{}) do
+
     %Assignment{}
     |> Assignment.changeset(attrs)
     |> Repo.insert()
@@ -109,4 +120,38 @@ defmodule Tasktracker.Post do
   def change_assignment(%Assignment{} = assignment) do
     Assignment.changeset(assignment, %{})
   end
+
+  def get_timeblocks_by_assignment(id) do
+    Repo.all(from t in Timeblock,
+      where: t.assignment_id == ^id)
+  end
+
+  def block_map_for() do
+    Repo.all(from u in Timeblock,
+      where: u.start_time == u.end_time)
+      |> Enum.map(&({&1.assignment_id, &1.id}))
+      |> Enum.into(%{})
+  end
+
+
+  #disscussed with cheng zeng
+  def calc_time_block(id) do
+    Repo.all(from f in Timeblock,
+      where: f.assignment_id == ^id)
+    |> Enum.map(fn x ->
+      DateTime.diff(x.end_time, x.start_time, :second)
+    end)
+    |> Enum.sum
+    |> (fn x ->
+      hour = div(x,3600)
+      minutes = div(x - hour * 3600, 60)
+      {id, [hour,minutes]}
+    end).()
+  end
+
+
+
+
+
+
 end

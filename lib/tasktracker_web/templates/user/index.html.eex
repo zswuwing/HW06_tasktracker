@@ -1,8 +1,13 @@
 <h2>Listing Users</h2>
 
+<script>
+ window.supervision_path = "<%= supervision_path(@conn, :index) %>";
+ window.current_user_id = "<%= @current_user.id %>";
+</script>
 <table class="table">
   <thead>
     <tr>
+      <th>-</th>
       <th>Email</th>
       <th>Name</th>
       <th>Admin</th>
@@ -12,17 +17,38 @@
   </thead>
   <tbody>
 <%= for user <- @users do %>
-    <tr>
-      <td><%= user.email %></td>
-      <td><%= user.name %></td>
-      <td><%= user.admin %></td>
 
-      <td class="text-right">
-        <span><%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
+      <tr>
+        <!-- <td>
+          <button class="supervision-button btn btn-default"
+                  data-user-id="<%= user.id %>"
+                  data-supervision="<%= @supervisions[user.id] %>">
+                Set to Supervised
+          </button>
+        </td> -->
+        <%= if user.id != @current_user.id do %>
+          <td>
+            <button class="supervision-button btn btn-default"
+                    data-user-id="<%= user.id %>"
+                    data-supervision="<%= @supervisions[user.id] %>">
+                  Set to Supervised
+            </button>
+          </td>
+        <% else %>
+          <td>
+          </td>
+        <% end %>
+        <td><%= user.email %></td>
+        <td><%= user.name %></td>
+        <td><%= user.admin %></td>
+
+        <td class="text-right">
+          <span><%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %></span>
+          <span><%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %></span>
+          <span><%= link "Delete", to: user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        </td>
+      </tr>
+
 <% end %>
   </tbody>
 </table>

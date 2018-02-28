@@ -1,6 +1,13 @@
 <h2>Show User</h2>
 
+
+
+
+
 <ul>
+  <!-- add header column -->
+  <!-- body column: -->
+
 
   <li>
     <strong>Email:</strong>
@@ -16,6 +23,27 @@
     <strong>Admin:</strong>
     <%= @user.admin %>
   </li>
+
+  <li>
+    <strong>Manager:</strong>
+      <td><%= @manager[@user.id] %></td>
+
+  </li>
+
+  <li>
+    <strong>Underlings:</strong>
+      <%= for s <- @supervisions do %>
+        <%= if s.supervisor_id == @user.id do %>
+          <td><%= s.underling_id %></td>
+        <% end %>
+      <% end %>
+
+  </li>
+
+
+
+
+
 
 </ul>
 

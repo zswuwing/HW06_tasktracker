@@ -5,7 +5,7 @@ defmodule Tasktracker.Repo.Migrations.CreateAssignments do
     create table(:assignments) do
       add :headline, :string, null: false
       add :description, :text, null: false
-      add :hours, :integer, null: false
+      add :hours, :integer
       add :minutes, :integer
       add :complete, :boolean, default: false, null: false
       add :publisher_id, references(:users, on_delete: :delete_all), null: false

@@ -1,3 +1,6 @@
+<script>
+ window.timeblock_path = "<%= timeblock_path(@conn, :index) %>";
+</script>
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
@@ -8,8 +11,10 @@
 	  <%= if @current_user.id == @assignment.publisher_id do %>
 			  <div class="form-group">
 			    <%= label f, :publisher_id, class: "control-label" %>
-			    <%= text_input f, :publisher_id, class: "form-control" %>
+
+			    <%= text_input f, :publisher_id, class: "form-control", value: @current_user.id %>
 			    <%= error_tag f, :publisher_id %>
+
 			  </div>
 
 			  <div class="form-group">
@@ -31,11 +36,7 @@
 			  </div>
 	  <% end %>
   <% else %>
-			  <div class="form-group">
-			    <%= label f, :publisher_id, class: "control-label" %>
-			    <%= text_input f, :publisher_id, class: "form-control" %>
-			    <%= error_tag f, :publisher_id %>
-			  </div>
+
 
 			  <div class="form-group">
 			    <%= label f, :receiver_id, class: "control-label" %>
@@ -55,10 +56,10 @@
 			    <%= error_tag f, :description %>
 			  </div>
   <% end %>
-          
-	  
- 
 
+
+
+<!--
   <div class="form-group">
     <%= label f, :hours, class: "control-label" %>
     <%= number_input f, :hours, class: "form-control" %>
@@ -67,17 +68,74 @@
 
   <div class="form-group">
     <%= label f, :minutes, class: "control-label" %> Increment By 15
-    <%= number_input f, :minutes, class: "form-control", min: 0, max: 45, step: 15 %>
+    <%= number_input f, :minutes, class: "form-control" %>
     <%= error_tag f, :minutes %>
-  </div>
-
+  </div> -->
   <div class="form-group">
     <%= label f, :complete, class: "control-label" %>
     <%= checkbox f, :complete, class: "checkbox" %>
     <%= error_tag f, :complete %>
   </div>
-
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+  <%= if @assignment do %>
+
+	  <%= if @current_user.id == @assignment.receiver_id do %>
+
+      <%= for b <- @blocks do %>
+                <!-- using template from cheng zeng and discussed with him -->
+                <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
+                    <div class="col-auto">
+                        <strong>Start Time:</strong>
+                        <%=
+                        b.start_time
+                        |> DateTime.to_naive
+                        |> NaiveDateTime.add(-18000)
+                        |> NaiveDateTime.truncate(:second)
+                        %>
+                        <strong>End Time:</strong>
+                        <%= if DateTime.diff(b.end_time, b.start_time, :second) == 0 do %>
+                            Still working
+                        <% else %>
+                            <%=
+                            b.end_time
+                            |> DateTime.to_naive
+                            |> NaiveDateTime.add(-18000)
+                            |> NaiveDateTime.truncate(:second)
+                            %>
+                        <% end %>
+                        <button class="delete-block btn btn-danger"
+                                data-time-id="<%= b.id %>">
+                                Delete
+                        </button>
+                    </div>
+                </div>
+     <% end %>
+
+  <!-- using template from cheng zeng and discussed with him -->
+        <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
+            <div class="col-auto">
+                <label for="start-date">Start Date</label>
+                <input type="date" class="start-date-input">
+                <label for="start-time">Start Time</label>
+                <input type="time" class="start-time-input">
+                <label for="end-time">End Date</label>
+                <input type="date" class="end-date-input">
+                <label for="end-time">End Time</label>
+                <input type="time" class="end-time-input">
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1rem; margin-bottom: 1rem">
+            <div class="col-auto">
+                <button class="add-block btn btn-primary"
+                        data-assignment-id="<%= @assignment.id %>">
+                    Add Time Block
+                </button>
+            </div>
+        </div>
+
+       <% end %>
+     <% end %>

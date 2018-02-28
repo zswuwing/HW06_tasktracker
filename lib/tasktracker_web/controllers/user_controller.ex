@@ -3,10 +3,13 @@ defmodule TasktrackerWeb.UserController do
 
   alias Tasktracker.Accounts
   alias Tasktracker.Accounts.User
+  alias Tasktracker.Realationship
 
   def index(conn, _params) do
+    current_user = conn.assigns[:current_user]
     users = Accounts.list_users()
-    render(conn, "index.html", users: users)
+    supervisions = Tasktracker.Realationship.underlings_map_for(current_user.id)
+    render(conn, "index.html", users: users, supervisions: supervisions)
   end
 
   def new(conn, _params) do
@@ -28,7 +31,11 @@ defmodule TasktrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
-    render(conn, "show.html", user: user)
+    current_user = conn.assigns[:current_user]
+    manager = Tasktracker.Realationship.get_manager(user.id)
+    supervisions = Tasktracker.Realationship.list_supervisions()
+
+    render(conn, "show.html", user: user, manager: manager, supervisions: supervisions)
   end
 
   def edit(conn, %{"id" => id}) do
