@@ -13,6 +13,7 @@ defmodule TasktrackerWeb.UserController do
       supervisions = Tasktracker.Realationship.underlings_map_for(current_user.id)
       render(conn, "index.html", users: users, supervisions: supervisions)
     end
+    conn
   end
 
   def new(conn, _params) do
