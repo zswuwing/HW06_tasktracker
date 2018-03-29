@@ -32,7 +32,7 @@ defmodule TasktrackerWeb.AssignmentController do
   def new(conn, _params) do
     changeset = Post.change_assignment(%Assignment{})
     current_user = conn.assigns[:current_user]
-    render(conn, "new.html", changeset: changeset, assignment: nil)
+    render(conn, "new.html", changeset: changeset, assignment: nil, current_user: current_user, blocks: nil)
   end
 
   def create(conn, %{"assignment" => assignment_params}) do

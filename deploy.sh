@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export PORT=5102
+export PORT=5103
 export MIX_ENV=prod
-export GIT_PATH=/home/tasktracker/src/tasktracker
+export GIT_PATH=/home/tasktracker/src/part2/tasktracker
 
 PWD=`pwd`
 if [ $PWD != $GIT_PATH ]; then
@@ -23,21 +23,21 @@ mix deps.get
 mix phx.digest
 mix release --env=prod
 
-mkdir -p ~/www
-mkdir -p ~/old
+mkdir -p ~/part2/www
+mkdir -p ~/part2/old
 
 NOW=`date +%s`
-if [ -d ~/www/tasktracker ]; then
-	echo mv ~/www/tasktracker ~/old/$NOW
-	mv ~/www/tasktracker ~/old/$NOW
+if [ -d ~/part2/www/tasktracker ]; then
+	echo mv ~/part2/www/tasktracker ~/part2/old/$NOW
+	mv ~/part2/www/tasktracker ~/part2/old/$NOW
 fi
 
-mkdir -p ~/www/tasktracker
-REL_TAR=~/src/tasktracker/_build/prod/rel/tasktracker/releases/0.0.1/tasktracker.tar.gz
-(cd ~/www/tasktracker && tar xzvf $REL_TAR)
+mkdir -p ~/part2/www/tasktracker
+REL_TAR=~/src/part2/tasktracker/_build/prod/rel/tasktracker/releases/0.0.1/tasktracker.tar.gz
+(cd ~/part2/www/tasktracker && tar xzvf $REL_TAR)
 
 crontab - <<CRONTAB
-@reboot bash /home/tasktracker/src/tasktracker/start.sh
+@reboot bash /home/tasktracker/src/part2/tasktracker/start.sh
 CRONTAB
 
 #. start.sh
