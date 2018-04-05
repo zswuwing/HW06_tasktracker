@@ -25,7 +25,7 @@ class API {
         contentType: "application/json; charset=UTF-8",
         data: data1,
         success: () => {
-	   window.location.replace("https://localhost:4000");
+	   window.location.replace("https://tasks3.kehu.pw");
             
         }
       });

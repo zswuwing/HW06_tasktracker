@@ -1,4 +1,7 @@
 # Tasktracker
+1. dicussed with Cheng Zeng to use token to know whether a user has log in or not
+2. dicussed with Cheng Zeng to use directornot conditional variable to know whether we should direct to home page
+
 
 To start your Phoenix server:
 

@@ -51,6 +51,7 @@ function assign_form(state = empty_form, action) {
   }
 }
 
+//dicussed with Cheng Zeng to use token to know whether a user has log in or not
 function token(state = null, action) {
   switch (action.type) {
     case 'SET_TOKEN':
@@ -62,7 +63,7 @@ function token(state = null, action) {
   }
 }
 
-
+//dicussed with Cheng Zeng to use directornot conditional variable to know whether we should direct to home page
 function directornot(state = false, action) {
   switch (action.type) {
     case "REDIRECT":
