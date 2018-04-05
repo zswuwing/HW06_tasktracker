@@ -19,3 +19,12 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import tasktracker_init from "./react/todo";
+import store from "./react/store";
+
+function initial() {
+  let root = document.getElementById("root");
+  tasktracker_init(store,root);
+}
+$(initial());

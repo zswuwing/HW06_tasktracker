@@ -6,21 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-      <div class="row">
-        <div class="col-3 offset-9">
-          <%= if @current_user do %>
-            <p>
-              Logged in as: <%= @current_user.name %> |
-              <%= link "Log Out", to: "/session", method: :delete %>
-            </p>
-          <% else %>
-            <p>Not logged in.</p>
-          <% end %>
-        </div>
-      </div>
 
     <title>Hello Tasktracker!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <script>
+      window.user_path = "<%= user_path(@conn,:index) %>";
+      window.token_path = "<%= token_path(@conn,:create) %>";
+      window.assignment_path = "<%= assignment_path(@conn,:index) %>";
+
+    </script>
   </head>
 
   <body>

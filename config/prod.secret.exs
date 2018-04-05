@@ -9,13 +9,12 @@ use Mix.Config
 # kept out of version control and might be hard to recover
 # or recreate for your teammates (or yourself later on).
 config :tasktracker, TasktrackerWeb.Endpoint,
-  secret_key_base: "RNEneAzLhV9ximFk+zwilCSRznZiAi9YkhwjPJF8ipqT6XHKsp5pNCIiFy3quKq1",
-  url: [host: "localhost", port: 5102]
+  secret_key_base: "3cDFNCKCg5WC5tbZcIK/J+fVMRWV2Z2IBvhHtXRwTcRpUPVllVzXfv2jMTiU0dUe"
 
 # Configure your database
 config :tasktracker, Tasktracker.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "tasktracker",
-  password: "123456",
-  database: "tasktracker_dev",
-  pool_size: 10
+  username: "postgres",
+  password: "postgres",
+  database: "tasktracker_prod",
+  pool_size: 15

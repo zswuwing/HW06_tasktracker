@@ -24,18 +24,25 @@ defmodule TasktrackerWeb.Router do
 
   scope "/", TasktrackerWeb do
     pipe_through :browser # Use the default browser stack
-    resources "/assignments", AssignmentController
+    # resources "/assignments", AssignmentController
     get "/", PageController, :index
-    resources "/users", UserController
-    resources "/flags", FlagController
-    post "/session", SessionController, :create
-    delete "/session", SessionController, :delete
-    get "/feed", PageController, :feed
+    # get "/newuser", PageController, :index
+    # get "/newassignment", PageController, :index
+    # #resources "/users", UserController
+    # resources "/flags", FlagController
+    # post "/session", SessionController, :create
+    # delete "/session", SessionController, :delete
+    # get "/feed", PageController, :feed
 
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", TasktrackerWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", TasktrackerWeb do
+    pipe_through :api
+    resources "/assignments", AssignmentController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit]
+    resources "/supvisions", SupervisionController, except: [:new, :edit]
+    resources "/timeblocks", TimeblockController, except: [:new, :edit]
+    post "/token", TokenController, :create
+  end
 end

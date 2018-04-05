@@ -1,4 +1,62 @@
-<h2>Listing Assignments</h2>
+<h2>Listing Your Assignments</h2>
+
+<script>
+ window.timeblock_path = "<%= timeblock_path(@conn, :index) %>";
+</script>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th> - </th>
+      <th>Publisher</th>
+      <th>Receiver</th>
+      <th>Headline</th>
+      <th>Description</th>
+      <th>Hours</th>
+      <th>Minutes</th>
+      <th>Complete</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for assignment <- @assignments do %>
+   <%= if @user_id == assignment.receiver_id do %>
+
+	    <tr>
+        <td>
+          <div>
+            <button class="work-button btn btn-default"
+                    data-assignment-id="<%= assignment.id %>"
+                    data-time-id="<%= @blocks[assignment.id] %>">
+             Start Work
+            </button>
+          </div>
+        </td>
+
+	      <td><%= assignment.publisher.name %></td>
+	      <td><%= assignment.receiver.name %></td>
+	      <td><%= assignment.headline %></td>
+	      <td><%= assignment.description %></td>
+        <td><%= Enum.at(@timespent_for_assignments[assignment.id],0) %></td>
+        <td><%= Enum.at(@timespent_for_assignments[assignment.id],1) %></td>
+	      <td><%= assignment.complete %></td>
+
+
+	      <td class="text-right">
+				  <span><%= link "Show", to: assignment_path(@conn, :show, assignment), class: "btn btn-default btn-xs" %></span>
+				  <span><%= link "Edit", to: assignment_path(@conn, :edit, assignment), class: "btn btn-default btn-xs" %></span>
+	     	</td>
+
+	    </tr>
+    <% end %>
+
+<% end %>
+
+  </tbody>
+</table>
+
+<h2>Listing The Assignments You Assigned</h2>
 
 <table class="table">
   <thead>
@@ -16,42 +74,31 @@
   </thead>
   <tbody>
 <%= for assignment <- @assignments do %>
-   <%= if @user_id == assignment.publisher_id or @user_id == assignment.receiver_id do %>
-	    <tr>
-	      <td><%= assignment.publisher.name %></td>
-	      <td><%= assignment.receiver.name %></td>
-	      <td><%= assignment.headline %></td>
-	      <td><%= assignment.description %></td>
-	      <td><%= assignment.hours %></td>
-	      <td><%= assignment.minutes %></td>
-	      <td><%= assignment.complete %></td>
-              <td><%= assignment.publisher_id %></td>
-              <td><%= assignment.receiver_id %></td>
-	      <td><%= @user_id %></td>
-              <%= if @user_id == assignment.publisher_id do %>
-	      	<td class="text-right">
-				<span><%= link "Show", to: assignment_path(@conn, :show, assignment), class: "btn btn-default btn-xs" %></span>
-				<span><%= link "Edit", to: assignment_path(@conn, :edit, assignment), class: "btn btn-default btn-xs" %></span>
-				<span><%= link "Delete", to: assignment_path(@conn, :delete, assignment), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-	     	</td>
-              <% else %>
-	      	<td class="text-right">
-				<span><%= link "Show", to: assignment_path(@conn, :show, assignment), class: "btn btn-default btn-xs" %></span>
-				<span><%= link "Edit", to: assignment_path(@conn, :edit, assignment), class: "btn btn-default btn-xs" %></span>
-
-	     	</td>
-                     
-              <% end %>
-              
+   <%=if @current_user.manager == true do %>
+   	    <tr>
+   	      <td><%= assignment.publisher.name %></td>
+   	      <td><%= assignment.receiver.name %></td>
+   	      <td><%= assignment.headline %></td>
+   	      <td><%= assignment.description %></td>
+   	      <td><%= Enum.at(@timespent_for_assignments[assignment.id],0) %></td>
+   	      <td><%= Enum.at(@timespent_for_assignments[assignment.id],1) %></td>
+   	      <td><%= assignment.complete %></td>
 
 
-                              
-	    </tr>
-    <% end %>
-    
+   	      <td class="text-right">
+   				     <span><%= link "Show", to: assignment_path(@conn, :show, assignment), class: "btn btn-default btn-xs" %></span>
+   				     <span><%= link "Edit", to: assignment_path(@conn, :edit, assignment), class: "btn btn-default btn-xs" %></span>
+   				     <span><%= link "Delete", to: assignment_path(@conn, :delete, assignment), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+   	     	 </td>
+   	    </tr>
+   <% end %>
 <% end %>
-              
+
   </tbody>
 </table>
 
-<span><%= link "New Assignment", to: assignment_path(@conn, :new) %></span>
+
+<%=if @current_user.manager == true do %>
+
+	<span><%= link "New Assignment", to: assignment_path(@conn, :new) %></span>
+<% end %>
