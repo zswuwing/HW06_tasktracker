@@ -8,8 +8,8 @@ defmodule Tasktracker.Post.Assignment do
     field :complete, :boolean, default: false
     field :description, :string
     field :headline, :string
-    field :hours, :integer
-    field :minutes, :integer
+    field :hours, :integer, default: 0
+    field :minutes, :integer, default: 0
     belongs_to :receiver, Tasktracker.Accounts.User
     belongs_to :publisher, Tasktracker.Accounts.User
     # has_many :time_block, Timeblock, foreign_key: :assignment_id
