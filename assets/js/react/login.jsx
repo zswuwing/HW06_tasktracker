@@ -9,12 +9,12 @@ export default function LoginForm(params) {
     <Form onSubmit={(e) => {api.submit_login(e);}}>
       <FormGroup>
         <Label htmlFor="email">Email</Label>
-        <Input type="email" name="email" id="email" >
+        <Input type="email" name="email" id="email" />
       </FormGroup>
 
       <FormGroup>
         <Label htmlFor="password">Password</Label>
-        <Input type="password" name="password" id="password">
+        <Input type="password" name="password" id="password" />
       </FormGroup>
 
 
