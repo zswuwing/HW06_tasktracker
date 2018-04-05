@@ -26,7 +26,7 @@ function assignments(state=[],action) {
 
 function users(state = [], action) {
   switch (action.type) {
-  case 'USERS_LIST':
+  case "GET_USER":
     return action.users;
   default:
     return state;

@@ -25,6 +25,7 @@ class API {
         contentType: "application/json; charset=UTF-8",
         data: data1,
         success: () => {
+	   window.location.replace("https://localhost:4000");
             
         }
       });

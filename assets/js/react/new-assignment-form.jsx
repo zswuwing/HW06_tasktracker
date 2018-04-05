@@ -67,6 +67,7 @@ function state2props(state) {
     token: state.token,
     assign_form: state.assign_form,
     directornot: state.directornot,
+    users: state.users,
   };
 }
 

@@ -75,7 +75,7 @@ class Tasktracker extends React.Component {
           } />
         <Route path="/newassignment" exact={true} render={() =>
             <div>
-              <AssignmentForm users={this.state.users} onEnter={api.get_user()}/>
+              <AssignmentForm onEnter={api.get_user()}/>
             </div>
           } />
         </div>

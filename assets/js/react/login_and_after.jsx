@@ -38,6 +38,7 @@ function Login_Page(props) {
 function state2props(state) {
   return {
     token: state.token,
+    users: state.users,
   }
 
 }
